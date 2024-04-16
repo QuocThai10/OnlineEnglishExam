@@ -515,7 +515,7 @@ section{
 }
 
 .courses .box-container{
-   display: grid;
+   display: none;
    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
    gap:1.5rem;
    justify-content: center;
