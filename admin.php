@@ -4,13 +4,13 @@
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Trang chủ</title>
+   <title>ADMIN</title>
 
    <!-- font awesome cdn link  -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
 
    <!-- custom css file link  -->
-   <link rel="stylesheet" href="css/style.css">
+   <link rel="stylesheet" href="./css/style.css">
 
 </head>
 <body>
@@ -19,7 +19,11 @@
    
    <section class="flex">
 
-      <a href="home.html" class="logo">English Test</a>
+      <a href="admin.php" class="logo"> 
+         <img src="images/logo.png" alt="" width="70px" height="50px" >
+         <p style="position: absolute;left: 90px;top:15px; font-style: italic;">English</p>
+         <p style="position: absolute;left: 75px;top:35px; font-style: italic;">Test</p>
+      </a>
 
       <!-- <form action="search.html" method="post" class="search-form">
          <input type="text" name="search_box" required placeholder="search courses..." maxlength="100">
@@ -79,7 +83,7 @@
 
       <div class="box">
          <h3 class="title">quản lý bài thi</h3>
-         <a href="#" class="inline-btn" style="width: 240px;">danh sách câu hỏi</a>
+         <a href="DS_cauhoi.php" class="inline-btn" style="width: 240px;">danh sách câu hỏi</a>
          <a href="#" class="inline-btn" style="width: 240px;">thêm câu hỏi</a>
       </div>
 

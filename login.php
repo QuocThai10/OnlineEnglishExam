@@ -29,7 +29,7 @@ if(!isset($_SESSION)) session_start();
     <br>
     <div class="container" id="container">
       <div class="form-container sign-up-container">
-        <form action="register.php" name="register" onsubmit="return validateForm_register()" method="get">
+        <form action="login.php" name="signUp" onsubmit="return validateForm_register()" method="get">
           <h1 style="font-size: 28px;">Create Account</h1>
           <div class="social-container">
             <a href="#" class="social"><svg width="30" height="30" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -102,18 +102,28 @@ if(!isset($_SESSION)) session_start();
       if (!isset($_GET['signIn']) || $_GET['signIn']=="") {
         
       }else{
-        require('connect.php');
+        require('config/connect.php');
         $user = isset($_REQUEST['user'])?$_REQUEST['user']:null;
         $pws= isset($_REQUEST['password'])?$_REQUEST['password']:null;  
-        $stm = $pdo->query("select * from taikhoan where user = '$user' and password='$pws'");
+        $stm = $pdo->query("select * from tbl_nguoidung where taikhoan = '$user' and matkhau='$pws'");
         if($stm->rowCount()>0){
-            $row = $stm->fetch(PDO::FETCH_ASSOC);
-            $_SESSION['admin']=$row;
-            ?>
-            <script>
-              location.href = 'index.php';
-          </script>
+            $data = $stm->fetch(PDO::FETCH_ASSOC);
+            $_SESSION['admin']=$data;
+            if($data['manhomquyen'] == 1 ){
+              ?>
+              <script>
+                location.href = 'admin.php';
+              </script>
             <?php
+            }else{
+              ?>
+              <script>
+                location.href = 'index.php';
+              </script>
+            <?php
+            }
+            
+            
         }else{
             alert('error', 'Đăng nhập không thành công - Thông tin xác thực không hợp lệ!');
         }
@@ -121,19 +131,36 @@ if(!isset($_SESSION)) session_start();
     ?>
     <?php 
       if (!isset($_GET['signUp']) || $_GET['signUp']=="") {
-        
+
       }else{
-        require('connect.php');
+        require('config/connect.php');
         $email = isset($_REQUEST['email'])?$_REQUEST['email']:null;
-        $stm = $pdo->query("select * from nguoiDung where email = '$email'");
+        $name = isset($_REQUEST['name'])?$_REQUEST['name']:null;
+        $taikhoan = isset($_REQUEST['user'])?$_REQUEST['user']:null;
+        $psw = isset($_REQUEST['password'])?$_REQUEST['password']:null;
+        $stm = $pdo->query("select * from tbl_nguoidung where email = '$email'");
+        $n = $stm->rowCount();
+
         if($stm->rowCount()>0){
             alert('error','Email đã được đăng ký');
+            ?>
+            <script>
+              container.classList.add("right-panel-active");
+            </script>
+            <?php
         }else{
-          $row = $stm->fetch(PDO::FETCH_ASSOC);
+          $sql = 'INSERT INTO `tbl_nguoidung`(`hoten`,`email`, `taikhoan`, `matkhau`, `manhomquyen`)
+           VALUES (?,?,?,?,2)';
+          $arr = [$name,$email,$taikhoan,$psw];
+          $stm1 = $pdo->prepare($sql);
+          $stm1->execute($arr);
+
+          $row = $stm1->fetch(PDO::FETCH_ASSOC);
           $_SESSION['admin']=$row;
+          alert('success','Đăng ký thành công!!');
           ?>
           <script>
-            location.href = 'register.php';
+            container.classList.remove("right-panel-active");
           </script>
           <?php
         }
