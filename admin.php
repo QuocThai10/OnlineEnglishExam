@@ -1,3 +1,16 @@
+<?php 
+    if(!isset($_SESSION)) session_start();
+    
+    if(!isset($_SESSION['admin'])){
+        header('location:login.php');exit;
+    }
+?>
+<!-- <pre></pre>
+<h1>Trang chủ <?php #echo $_SESSION['admin']['taikhoan']?></h1>
+<h1><?php #echo $_SESSION['admin']['hoten']?></h1>
+<h1>Trang chủ</h1>
+<a href="">logount <?php #unset($_SESSION['admin']);?></a> -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,7 +52,7 @@
 
       <div class="profile">
          <img src="images/pic-1.jpg" class="image" alt="">
-         <h3 class="name">Name Admin</h3>
+         <h3 class="name"><?php echo $_SESSION['admin']['hoten']?></h3>
          <p class="role">Admin</p>
          <a href="profile.html" class="btn">view profile</a>
          <div class="flex-btn">
@@ -60,7 +73,7 @@
 
    <div class="profile">
       <img src="images/pic-1.jpg" class="image" alt="">
-      <h3 class="name">Name Admin</h3>
+      <h3 class="name"><?php echo $_SESSION['admin']['hoten']?></h3>
       <p class="role">Admin</p>
       <a href="profile.html" class="btn">Hồ sơ</a>
    </div>
@@ -82,15 +95,16 @@
    <div class="box-container">
 
       <div class="box">
+         <h3 class="title">quản lý đề thi</h3>
+         <a href="DS_dethi.php" class="inline-btn" style="width: 240px;">danh sách đề thi</a>
+      </div>
+      <div class="box">
          <h3 class="title">quản lý bài thi</h3>
          <a href="DS_cauhoi.php" class="inline-btn" style="width: 240px;">danh sách câu hỏi</a>
-         <a href="#" class="inline-btn" style="width: 240px;">thêm câu hỏi</a>
       </div>
-
       <div class="box">
-         <h3 class="title">quản lý thí sinh</h3>
-         <a href="#" class="inline-btn" style="width: 240px;">danh sách thí sinh</a>
-         <a href="#" class="inline-btn" style="width: 240px;">thêm thí sinh</a>
+         <h3 class="title">quản lý đáp án</h3>
+         <a href="DS_dapan.php" class="inline-btn" style="width: 240px;">danh sách đáp án</a>
       </div>
 
       <!-- <div class="box">
@@ -99,147 +113,16 @@
          <a href="#" class="inline-btn" style="width: 240px;">thêm thông báo</a>
       </div> -->
 
-      <div class="box">
+      <!-- <div class="box">
          <h3 class="title">thống kê</h3>
          <a href="#" class="inline-btn" style="width: 240px;">thống kê điểm</a>
          <a href="#" class="inline-btn" style="width: 240px;">thống kê bài thi</a>
-      </div>
+      </div> -->
 
    </div>
 
 </section>
 
-
-
-<section class="courses">
-
-   <h1 class="heading">câu hỏi</h1>
-
-   <div class="box-container">
-
-      <div class="box">
-         <div class="tutor">
-            <img src="images/pic-2.jpg" alt="">
-            <div class="info">
-               <h3>john deo</h3>
-               <span>21-10-2022</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <img src="images/thumb-1.png" alt="">
-            <span>10 videos</span>
-         </div>
-         <h3 class="title">complete HTML tutorial</h3>
-         <a href="playlist.html" class="inline-btn">view playlist</a>
-      </div>
-
-      <div class="box">
-         <div class="tutor">
-            <img src="images/pic-3.jpg" alt="">
-            <div class="info">
-               <h3>john deo</h3>
-               <span>21-10-2022</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <img src="images/thumb-2.png" alt="">
-            <span>10 videos</span>
-         </div>
-         <h3 class="title">complete CSS tutorial</h3>
-         <a href="playlist.html" class="inline-btn">view playlist</a>
-      </div>
-
-      <div class="box">
-         <div class="tutor">
-            <img src="images/pic-4.jpg" alt="">
-            <div class="info">
-               <h3>john deo</h3>
-               <span>21-10-2022</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <img src="images/thumb-3.png" alt="">
-            <span>10 videos</span>
-         </div>
-         <h3 class="title">complete JS tutorial</h3>
-         <a href="playlist.html" class="inline-btn">view playlist</a>
-      </div>
-
-      <div class="box">
-         <div class="tutor">
-            <img src="images/pic-5.jpg" alt="">
-            <div class="info">
-               <h3>john deo</h3>
-               <span>21-10-2022</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <img src="images/thumb-4.png" alt="">
-            <span>10 videos</span>
-         </div>
-         <h3 class="title">complete Boostrap tutorial</h3>
-         <a href="playlist.html" class="inline-btn">view playlist</a>
-      </div>
-
-      <div class="box">
-         <div class="tutor">
-            <img src="images/pic-6.jpg" alt="">
-            <div class="info">
-               <h3>john deo</h3>
-               <span>21-10-2022</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <img src="images/thumb-5.png" alt="">
-            <span>10 videos</span>
-         </div>
-         <h3 class="title">complete JQuery tutorial</h3>
-         <a href="playlist.html" class="inline-btn">view playlist</a>
-      </div>
-
-      <div class="box">
-         <div class="tutor">
-            <img src="images/pic-7.jpg" alt="">
-            <div class="info">
-               <h3>john deo</h3>
-               <span>21-10-2022</span>
-            </div>
-         </div>
-         <div class="thumb">
-            <img src="images/thumb-6.png" alt="">
-            <span>10 videos</span>
-         </div>
-         <h3 class="title">complete SASS tutorial</h3>
-         <a href="playlist.html" class="inline-btn">view playlist</a>
-      </div>
-
-   </div>
-
-   <div class="more-btn">
-      <a href="courses.html" class="inline-option-btn">xem tất cả</a>
-   </div>
-
-</section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<footer class="footer">
-
-   &copy; copyright @ 2022 by <span>Duc Thien</span> | all rights reserved!
-
-</footer>
 
 <!-- custom js file link  -->
 <script src="js/script.js"></script>

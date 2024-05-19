@@ -31,15 +31,13 @@
         </p>
         <h1 style="margin-top: -74px;margin-left: 400px;">Đề số: <span id="text-date" style="display: inline;"></span></h1>
         <div class="danhsachdethi"></div>
-
-
-        <a class="primary-btn" href="#themdapan" style="margin-top: -570px; position: relative;right: 200px;">Thêm </a>
+        <a class="primary-btn" href="#themDapAn" style="margin-top: -570px;position: relative;right: 190px;">Thêm </a>
     </div>
 </div>
 
 <!-- modal them  -->
-<div id="themdapan" class="overlay">
-  <div class="popup" style="height: 550px;">
+<div id="themDapAn" class="overlay">
+  <div class="popup" style="height: 580px;">
         <div class="header-form">
             <h1 style="margin-top: 10px;">Thêm đáp án mới</h1>
             <a class="close" href="#">&times;</a>
@@ -71,13 +69,15 @@
                             
                     </select>
                 </p>
-                <label style="margin-left: 270px;position: relative;top:-115px">Đề thi số:</label><br>
-                <div style="position: relative;top:-6px" class="select-dethi-formAdd"></div>
-
-                <div style="position: relative;top: -150px;">
-                <label style="margin-left: 20px;" for="">Nội dung câu hỏi</label>
-                    <textarea id="subject" name="noidung" placeholder="Write something.." style="height:100px;top:5px"></textarea>
+                <label style="margin-left: 280px;position: relative;top:-115px">Đề thi số:</label><br>
+                <div style="position: relative;top:-80px;left: -20px;" class="select-dethi-cauhoi-formAdd"></div>
+                
+                <br>
+                <div style="position: relative;top: -160px;">
+                    <label style="margin-left: 20px;" for="">Nội dung đáp án</label>
+                    <textarea id="subject" name="noidungdapan" placeholder="Write something.." style="height:100px;top:5px"></textarea>
                 </div>
+                
                 <div style="margin-top: -80px;">
                 <a class="close-modal" href="#">Close</a>
                 <input type="submit" value="Submit">
@@ -115,18 +115,17 @@
             var macc = $(this).val();
             //$('#text-date').text(text);
             $.post("select_dethi_cauhoi_formAdd.php", { macc: macc }, function (data) {
-                $(".select-dethi-formAdd").html(data);
+                $(".select-dethi-cauhoi-formAdd").html(data);
             })
         });
         function macdinh() {
             var id = 0;
             $.post("select_dethi_cauhoi_formAdd.php", { macc: id }, function (data) {
-                $(".select-dethi-formAdd").html(data);
+                $(".select-dethi-cauhoi-formAdd").html(data);
             })
         }
     });
 </script>
-
 <script>
     function validateForm_add(){
       var noidung = document.forms["add-form"]["noidung"].value;
