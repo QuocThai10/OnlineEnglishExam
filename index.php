@@ -4,7 +4,10 @@
     if(!isset($_SESSION['admin'])){
         header('location:login.php');exit;
     }
+    //unset($_SESSION['admin']);
+    require 'config/connect.php';
 ?>
+
 
 <!DOCTYPE html>
    <html lang="en">
@@ -20,8 +23,13 @@
 
       <!--=============== CSS ===============-->
       <link rel="stylesheet" href="./css/main.css">
+      <link rel="stylesheet" href="./css/style_custom.css">
 
       <title>Responsive cactus website - Bedimcode</title>
+
+      <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+      <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
    </head>
    <body>
       <!--==================== HEADER ====================-->
@@ -71,20 +79,20 @@
          <!--==================== HOME ====================-->
          <section class="home section" id="home">
             <div class="home__container container grid">
-                <img src="./images/bgIndex.jpg" class="home__img">
+                <img src="./images/bgIndex.jpg" class="home__img" data-aos="fade-right" data-aos-duration="500">
 
-                <div class="home__data">
+                <div class="home__data" data-aos="fade-left" data-aos-duration="2500">
                     <h1 class="home__title">
                         Trải nghiệm <span>ENGLISH TEST</span> <br>
                         sự lựa chọn của bạn.
                     </h1>
 
-                    <p class="home__description">
+                    <p class="home__description" data-aos="fade-left" data-aos-duration="3000" >
                         English Test là trang website giúp bạn học tập và phát triển tiếng anh thông qua các bài tập trắc nghiệm bổ ích.
                     </p>
 
 
-                    <div class="home__buttons">
+                    <!-- <div class="home__buttons">
                         <a href="doing_test.php" class="button">
                             <span>
                                 <i class="ri-arrow-right-line"></i>
@@ -93,11 +101,39 @@
                         </a>
 
                         <a href="" class="button__link">Thông tin chi tiết</a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
+            <div style="margin-top: 100px;text-align: center;font-size: 26px;" data-aos="fade-up"  >
+                <h1>Các chứng chỉ được hỗ trợ</h1>
+            </div>
+            <?php 
+                $sql = "SELECT * FROM tbl_chungchi order by machungchi";
+                $stm = $pdo->query($sql);
+                $data = $stm->fetchAll(PDO::FETCH_OBJ);
+                $time = 100;
+            ?>
+            <div style="display: flex; width: 100%;justify-content: center;margin-top: 100px;" >
+                <?php 
+                    foreach($data as $item){
+                        ?>
+                            <div class="card" style="margin: 20px;" data-aos="fade-up"  data-aos-duration="<?php echo $time?>">
+                                <div class="card-details">
+                                    <p class="text-title"><?php echo $item->tenchungchi?></p>
+                                    <p class="text-body"><?php echo $item->mota?></p>
+                                </div>
+                                <a href="doing_test.php?macc=<?php echo $item->machungchi?>" class="card-button">Vào Thi</a>
+                            </div>
+                        <?php
+                        $time += 400;
+                    }
+                ?>
+            </div>
+
+            <div style="height: 100px;"></div>
          </section>
       </main>
+      <br>
 
       <!--==================== FOOTER ====================-->
       <footer class="footer">
@@ -186,3 +222,7 @@
       <script src="./js/main.js"></script>
    </body>
 </html>
+
+<script>
+  AOS.init();
+</script>

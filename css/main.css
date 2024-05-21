@@ -305,10 +305,12 @@ img {
 /*=============== FOOTER ===============*/
 .footer {
   padding: 4rem 2rem;
+  position: relative;
+  top: 100px;
 }
 
 .footer__container {
-  row-gap: 4rem;
+  row-gap: 10rem;
 }
 
 .footer__logo {
