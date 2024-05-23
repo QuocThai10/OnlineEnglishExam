@@ -1,5 +1,6 @@
 <?php 
   require 'config/connect.php';
+  $macc = $_GET['macc']??"";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -80,49 +81,23 @@
       <!--==================== HOME ====================-->
       <section class="menu_exam section" id="menu-exam">
         <div class="menu__exam container">
-          <div class="menu__exam_test">
-            <div class="row">
-              <div class="title_exam">
-                <?php 
-                $stm = $pdo->query('SELECT * FROM `tbl_chungchi`');
-                if($stm->rowCount()>0){
-                  $row = $stm->fetchAll(PDO::FETCH_OBJ);
-                  foreach($row as $item){
-                    ?>
-                      <h3><?php echo $item->tenchungchi ?></h3>
-                    <?php
-                  }
-                }
-                ?>
-                <h3></h3>
-                <br />
-                <p class="name_object_exam">
-                  <i class="ri-coin-fill"></i> Tiếng anh cơ bản
-                </p>
-                <p class="time_exam">
-                  <i class="ri-time-line"></i> Thời gian làm bài: 15 phút
-                </p>
-              </div>
-
-              <div class="details_exam">
-                <a href="display_exam.html" class="link_details_exam"
-                  ><button class="btn_details_exam">Vào thi</button></a
-                >
-              </div>
-            </div>
-          </div>
-
-          <div class="menu__exam_test">
-            <div class="row">
-              <div class="title_exam">
-                <h3>Test 1</h3>
-                <br />
-                <p class="name_object_exam">
-                  <i class="ri-coin-fill"></i> Tiếng anh cơ bản
-                </p>
-                <p class="time_exam">
-                  <i class="ri-time-line"></i> Thời gian làm bài: 15 phút
-                </p>
+          <?php 
+          $stm = $pdo->query('SELECT * FROM `tbl_chungchi`');
+          if($stm->rowCount()>0){
+            $row = $stm->fetchAll(PDO::FETCH_OBJ);
+            foreach($row as $item){
+              ?>
+                <div class="menu__exam_test">
+                  <div class="row">
+                    <div class="title_exam">
+                      <h3><?php echo $item->tenchungchi?></h3>
+                     
+                      <p class="name_object_exam" style="text-align: justify;">
+                        <i class="ri-coin-fill"></i> <?php echo $item->mota?>
+                      </p>
+                      <p class="time_exam">
+                        <i class="ri-time-line"></i> Thời gian làm bài: 15 phút
+                      </p>
               </div>
 
               <div class="details_exam">
@@ -132,48 +107,11 @@
               </div>
             </div>
           </div>
-
-          <div class="menu__exam_test">
-            <div class="row">
-              <div class="title_exam">
-                <h3>Test 1</h3>
-                <br />
-                <p class="name_object_exam">
-                  <i class="ri-coin-fill"></i> Tiếng anh cơ bản
-                </p>
-                <p class="time_exam">
-                  <i class="ri-time-line"></i> Thời gian làm bài: 15 phút
-                </p>
-              </div>
-
-              <div class="details_exam">
-                <a href="#" class="link_details_exam"
-                  ><button class="btn_details_exam">Vào thi</button></a
-                >
-              </div>
-            </div>
-          </div>
-
-          <div class="menu__exam_test">
-            <div class="row">
-              <div class="title_exam">
-                <h3>Test 1</h3>
-                <br />
-                <p class="name_object_exam">
-                  <i class="ri-coin-fill"></i> Tiếng anh cơ bản
-                </p>
-                <p class="time_exam">
-                  <i class="ri-time-line"></i> Thời gian làm bài: 15 phút
-                </p>
-              </div>
-
-              <div class="details_exam">
-                <a href="#" class="link_details_exam"
-                  ><button class="btn_details_exam">Vào thi</button></a
-                >
-              </div>
-            </div>
-          </div>
+              <?php
+            }
+          }
+          ?>
+          
         </div>
       </section>
 
