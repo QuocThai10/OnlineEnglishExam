@@ -79,11 +79,11 @@
    </div>
 
    <nav class="navbar">
-      <a href="home.html"><i class="fas fa-home"></i><span>Trang chủ</span></a>
+      <a href="admin.php"><i class="fas fa-home"></i><span>Trang chủ</span></a>
+      <a href="DS_taikhoan.php"><i class="fa-solid fa-user"></i><span>Tài khoản</span></a>
+      <a href="DS_cauhoi.php"><i class="fa-solid fa-question"></i><span>Câu hỏi</span></a>
+      <a href="DS_dethi.php"><i class="fas fa-chalkboard-user"></i><span>Đề thi</span></a>
       <a href="about.html"><i class="fa-solid fa-chart-simple"></i><span>Thống kê</span></a>
-      <a href="courses.html"><i class="fa-solid fa-question"></i><span>Câu hỏi</span></a>
-      <a href="teachers.html"><i class="fas fa-chalkboard-user"></i><span>Đề thi</span></a>
-      <a href="contact.html"><i class="fas fa-headset"></i><span>Tổng quan</span></a>
    </nav>
 
 </div>
@@ -107,11 +107,15 @@
          <a href="DS_dapan.php" class="inline-btn" style="width: 240px;">danh sách đáp án</a>
       </div>
 
-      <!-- <div class="box">
-         <h3 class="title">quản lý thông báo</h3>
-         <a href="#" class="inline-btn" style="width: 240px; ">thông báo</a>
-         <a href="#" class="inline-btn" style="width: 240px;">thêm thông báo</a>
-      </div> -->
+      <div class="box">
+         <h3 class="title">quản lý tài khoản</h3>
+         <a href="DS_taikhoan.php" class="inline-btn" style="width: 240px; ">danh sách tài khoản</a>
+      </div>
+
+      <div class="box">
+         <h3 class="title">quản lý chứng chỉ</h3>
+         <a href="DS_chungchi.php" class="inline-btn" style="width: 240px; ">danh sách chứng chỉ</a>
+      </div>
 
       <!-- <div class="box">
          <h3 class="title">thống kê</h3>

@@ -81,11 +81,11 @@ include 'essentials.php';
    </div>
 
    <nav class="navbar">
-      <a href="home.html"><i class="fas fa-home"></i><span>Trang chủ</span></a>
+      <a href="admin.php"><i class="fas fa-home"></i><span>Trang chủ</span></a>
+      <a href="DS_taikhoan.php"><i class="fa-solid fa-user"></i><span>Tài khoản</span></a>
+      <a href="DS_cauhoi.php"><i class="fa-solid fa-question"></i><span>Câu hỏi</span></a>
+      <a href="DS_dethi.php"><i class="fas fa-chalkboard-user"></i><span>Đề thi</span></a>
       <a href="about.html"><i class="fa-solid fa-chart-simple"></i><span>Thống kê</span></a>
-      <a href="courses.html"><i class="fa-solid fa-question"></i><span>Câu hỏi</span></a>
-      <a href="teachers.html"><i class="fas fa-chalkboard-user"></i><span>Đề thi</span></a>
-      <a href="contact.html"><i class="fas fa-headset"></i><span>Tổng quan</span></a>
    </nav>
 
 </div>
