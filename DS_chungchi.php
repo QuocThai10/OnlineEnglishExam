@@ -8,7 +8,7 @@ require 'config/connect.php';
 
         <div class="search_acc">
             <input type="text" id="search-box" placeholder="Tìm kiếm chứng chỉ..." >
-            <button id="search-button" ">Tìm kiếm</button>
+            <button class="btn-cl" id="search-button">Tìm kiếm</button>
 
             <button class="add_acc">Thêm chứng chỉ</button>
         </div>

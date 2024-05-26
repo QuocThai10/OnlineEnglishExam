@@ -11,8 +11,9 @@ $matkhau = $_POST['password']??"";
 $quyen = $_POST['role']??"";
 
 
-$sql = "UPDATE `tbl_nguoidung` 
-SET `hoten`='$hoten',`ngaysinh`='$ngaysinh',`email`='$email' ,`taikhoan`='$taikhoan',`matkhau`='$matkhau',`manhomquyen`='$manhomquyen' WHERE id_nguoidung='$id_nguoidung'";
+$sql = "UPDATE `tbl_nguoidung`
+SET `hoten`='$hoten',`ngaysinh`='$ngaysinh',`email`='$email' ,`taikhoan`='$taikhoan',`matkhau`='$matkhau',`manhomquyen`='$quyen' 
+WHERE `id_nguoidung`='$id_nguoidung' ";
 
 $stm = $pdo->prepare($sql);
 

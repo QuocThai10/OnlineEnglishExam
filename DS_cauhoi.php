@@ -31,19 +31,20 @@
         </p>
         <h1 style="margin-top: -74px;margin-left: 400px;">Đề số: <span id="text-date" style="display: inline;"></span></h1>
         <div class="danhsachdethi"></div>
-        <a class="primary-btn" href="#themCauHoi" style="margin-top: -570px;">Thêm </a>
+    
+        <a class="primary-btn" href="#themCauHoi" style="position: relative;top:-520px;">Thêm </a>
     </div>
 </div>
 
 <!-- modal them  -->
 <div id="themCauHoi" class="overlay">
   <div class="popup" style="height: 550px;">
-        <div class="header-form">
+        <div class="header-form" style="width: 762px;">
             <h1 style="margin-top: 10px;">Thêm câu hỏi mới</h1>
             <a class="close" href="#">&times;</a>
         </div>
         <div class="">
-            <form action="add_cauhoi.php" method="get" name="add-form" onsubmit="return validateForm_add()" enctype="multipart/form-data">
+            <form action="add_cauhoi.php" method="post" name="add-form" onsubmit="return validateForm_add()" enctype="multipart/form-data">
                 <label style="position: relative;top:-20px;left: 20px;">Chứng chỉ:</label><br>
                 <?php
                     $sql = "SELECT * FROM tbl_chungchi order by machungchi";
@@ -136,12 +137,8 @@
 <script>
     function validateForm_add(){
       var noidung = document.forms["add-form"]["noidung"].value;
-      var dethi = document.forms["add-form"]["made"].value;
 
-      if(dethi == 0){
-        alert("Vui lòng chọn đề thi");
-        return false;
-      }else if(noidung == null || noidung ==""){
+    if(noidung == null || noidung ==""){
         alert("Vui lòng nhập nội dung câu hỏi");
         return false;
       }

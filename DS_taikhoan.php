@@ -55,7 +55,7 @@ require 'config/connect.php';
         // Xử lý sự kiện khi nhấn nút thêm tài khoản
         $('.add_acc').click(function() {
             $.ajax({
-                url: "add_taikhoan.php",
+                url: "insert_taikhoan.php",
                 type: "GET",
                 success: function(data) {
                     $("#add-account-form").html(data);

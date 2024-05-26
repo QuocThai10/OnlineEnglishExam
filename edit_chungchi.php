@@ -3,25 +3,26 @@
 require 'config/connect.php';
 require 'side_bar.php';
 
-
 $machungchi = $_GET['machungchi'];
 
-$sql = "SELECT *
-  FROM tbl_chungchi
-  WHERE machungchi='$machungchi'";
-$stm = $pdo->query($sql);
+$sql = "SELECT * FROM tbl_chungchi WHERE machungchi = :machungchi";
+$stm = $pdo->prepare($sql);
+$stm->bindParam(':machungchi', $machungchi, PDO::PARAM_STR);
+$stm->execute();
 $row = $stm->fetch(PDO::FETCH_OBJ);
 ?>
 <div>
+<h1 style="text-align: center; color: red; font-size: 25px; font-weight: bold; margin-top: 3rem;">CẬP NHẬT CHỨNG CHỈ</h1> 
   <div class="form-edit">
     <form action="update_chungchi.php" method="post" name="edit-form" onsubmit="return validateForm_edit()" enctype="multipart/form-data">
+      <input type="hidden" name="machungchi" value="<?php echo htmlspecialchars($row->machungchi); ?>">
       <div class="form-group" style="margin-top: 10px;">
         <label for="name">Tên chứng chỉ:</label>
-        <input type="text" name="name" id="name">
+        <input type="text" name="name" id="name" value="<?php echo htmlspecialchars($row->tenchungchi); ?>">
       </div>
       <div class="form-group">
-        <label for="bod">Mô tả:</label>
-        <input type="text" name="mata" id="mota">
+        <label for="mota">Mô tả:</label>
+        <input type="text" name="mota" id="mota" value="<?php echo htmlspecialchars($row->mota); ?>">
       </div>
       <div class="form-group">
         <a href="DS_chungchi.php" class="btn_cancel">Hủy</a>
@@ -39,7 +40,7 @@ $row = $stm->fetch(PDO::FETCH_OBJ);
 <style>
   .form-edit {
   width: 60%;
-  height: 540px;
+  height: 280px;
   margin: 20px auto 10px;
   padding: 20px;
   border: 1px solid #ccc;
@@ -83,8 +84,8 @@ $row = $stm->fetch(PDO::FETCH_OBJ);
   background-color: #006bbf;
 }
 
-.form-group .btn_cancel{
-  border:1px solid grey;
+.form-group .btn_cancel {
+  border: 1px solid grey;
   background-color: grey;
   width: 70px;
   height: 40px;
@@ -98,8 +99,7 @@ $row = $stm->fetch(PDO::FETCH_OBJ);
   margin-left: 40%;
 }
 
-.form-group .btn_cancel:hover{
+.form-group .btn_cancel:hover {
   background-color: red;
 }
-
 </style>

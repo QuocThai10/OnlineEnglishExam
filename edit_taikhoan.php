@@ -12,32 +12,35 @@ $sql = "SELECT *
 $stm = $pdo->query($sql);
 $row = $stm->fetch(PDO::FETCH_OBJ);
 ?>
+
 <div>
+<h1 style="text-align: center; color: red; font-size: 25px; font-weight: bold; margin-top: 3rem;">SỬA THÔNG TIN TÀI KHOẢN</h1> 
   <div class="form-edit">
     <form action="update_taikhoan.php" method="post" name="edit-form" onsubmit="return validateForm_edit()" enctype="multipart/form-data">
+    <input type="hidden" name="id_nguoidung" value="<?php echo htmlspecialchars($row->id_nguoidung); ?>">
       <div class="form-group" style="margin-top: 10px;">
         <label for="name">Họ và Tên:</label>
-        <input type="text" name="name" id="name">
+        <input type="text" name="name"  value="<?php echo htmlspecialchars($row->hoten); ?>">
       </div>
       <div class="form-group">
         <label for="bod">Ngày sinh:</label>
-        <input type="text" name="bod" id="bod">
+        <input type="text" name="bod" value="<?php echo htmlspecialchars($row->ngaysinh); ?>">
       </div>
       <div class="form-group">
         <label for="email">Email:</label>
-        <input type="text" name="email" id="email">
+        <input type="text" name="email"  value="<?php echo htmlspecialchars($row->email); ?>">
       </div>
       <div class="form-group">
         <label for="username">Tài Khoản:</label>
-        <input type="text" name="username" id="username">
+        <input type="text" name="username"  value="<?php echo htmlspecialchars($row->taikhoan); ?>">
       </div>
       <div class="form-group">
         <label for="password">Mật Khẩu:</label>
-        <input type="text" name="password" id="password">
+        <input type="text" name="password"  value="<?php echo htmlspecialchars($row->matkhau); ?>">
       </div>
       <div class="form-group">
         <label for="role">Quyền:</label>
-        <input type="number" name="role" id="role">
+        <input type="number" name="role"  value="<?php echo htmlspecialchars($row->manhomquyen); ?>">
       </div>
       <div class="form-group">
         <a href="DS_taikhoan.php" class="btn_cancel">Hủy</a>
@@ -46,6 +49,7 @@ $row = $stm->fetch(PDO::FETCH_OBJ);
     </form>
   </div>
 </div>
+
 <script>
   function quay_lai_trang_truoc() {
     history.back();

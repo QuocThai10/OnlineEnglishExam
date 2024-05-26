@@ -1,145 +1,303 @@
-<?php 
-    require 'side_bar.php';
-    require 'config/connect.php';
-?>
-<div class="row">
-    <div class="col-lg-10 ms-auto p-4 overflow-hidden">
-        <h1 style="margin-top: 20px;margin-left: 20px;">Chứng chỉ: <span id="text-date" style="display: inline;"></span></h1>
-        <?php
-            $sql = "SELECT * FROM tbl_chungchi order by machungchi";
-            $stm = $pdo->query($sql);
+<?php
+require 'config/connect.php';
+$made = $_POST['made'];
+$cauhoi = $_GET['cauhoi']??"";
+if($made == 0){
+    $stm = $pdo->query("SELECT *
+    FROM tbl_cauhoi
+    where noidungcauhoi like '%$cauhoi%'");
+    $data = $stm->fetchAll(PDO::FETCH_OBJ);
+    $i =1;
         ?>
-        <p>
-            <select class="select-date" style="width: 200px;position: relative;left: 120px;top:-35px">
-                <option value="0"> -- Not Value --</option>
-                <?php
-                    $data = $stm->fetchAll(PDO::FETCH_OBJ);
-                    if($stm->rowCount()>0){
-                        foreach($data as $item){
+            <div style="margin: -86px 0px 50px 700px">
+                <form action="danhsach_cauhoi.php" method="get">
+                    <h1 style="position: relative;top: 15px;">Tìm kiếm câu hỏi: </h1>
+                    <input type="text" name="cauhoi" style="width: 200px;margin-left: 165px;" placeholder="Tìm câu hỏi...">
+                    <input type="submit" value="Search" style="margin: -19px 70px 0px 0px;">
+                </form>
+            </div>
+            <table class="styled-table" style="width: 1140px;margin-left: 50px;table-layout: fixed;margin-top: 1px;">
+                <thead style="display: table;">
+                    <tr>
+                        <td style="text-align: center;width: 50px">STT</td>
+                        <td style="text-align: center;width: 120px">Mã câu hỏi</td>
+                        <td style="width: 350px;">Nội dung câu hỏi</td>
+                        <td style="text-align: center;width: 150px;">Hình ảnh</td>
+                        <td style="text-align: center;width: 260px;">Âm thanh</td>
+                        <td style="text-align: center;width: 200px;">Action</td>
+                    </tr>
+                </thead>
+                <tbody style="display: block;height: 450px;overflow: auto;width: 100%;">
+        <?php
+        foreach($data as $item){
+            if($i % 2 !=0){
+                ?>
+                <tr style="display: table; width: 100%;table-layout: fixed;">
+                    <td style="text-align: center;width: 50px;"><?php echo $i?></td>
+                    <td style="text-align: center;width: 130px;"><?php echo $item->macauhoi?></td>
+                    <td style="width: 350px;"><?php echo $item->noidungcauhoi?></td>
+                    <?php 
+                        if($item->hinhanh == null){
                             ?>
-                                <option value="<?php echo $item->machungchi ?>">
-                                    <?php echo $item->tenchungchi ?>
-                                </option>
+                                <td style="text-align: center;width: 140px;">No Imange</td>
+                            <?php
+                        }else{
+                            ?>
+                                <td style="text-align: center;width: 140px;"> 
+                                    <img style="width: 70%;height: 70%;" src="./images/<?php echo $item->hinhanh?>" alt="">
+                                </td>
                             <?php
                         }
-                        ?>
-                        <?php 
-                    }
+                    ?>
+                    <?php 
+                        if($item->amthanh == null){
+                            ?>
+                                <td style="text-align: center;width: 260px;">No Audio</td>
+                            <?php
+                        }else{
+                            ?>
+                                <td style="text-align: center;width: 260px;">
+                                <audio controls style="width: 250px;" >
+                                    <source src="./audios/<?php echo $item->amthanh?>">
+                                </audio>
+                                </td>
+                            <?php
+                        }
+                    ?>
+                    <td style="text-align: center;">
+                        <a 
+                            href="edit_cauhoi.php?macauhoi=<?php echo $item->macauhoi?>">
+                            <svg width="30" height="30" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M7 6a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-2a1 1 0 1 1 0-2h2a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h2a1 1 0 0 1 0 2H7Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M8 12a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M8 16a1 1 0 0 1 1-1h3a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M8 5a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V5Zm3-1a1 1 0 0 0-1 1v1h4V5a1 1 0 0 0-1-1h-2Z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                        <a onclick="return confirm('Bạn có muốn xóa câu hỏi này không???');"
+                            href="delete_cauhoi.php?macauhoi=<?php echo $item->macauhoi?>">
+                            <svg width="30" height="30" fill="#dd2727" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M10 11a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0v-5a1 1 0 0 1 1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M14 11a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0v-5a1 1 0 0 1 1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M3 7a1 1 0 0 1 1-1h16a1 1 0 1 1 0 2H4a1 1 0 0 1-1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M6 9a1 1 0 0 1 1 1v8a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-8a1 1 0 1 1 2 0v8a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4v-8a1 1 0 0 1 1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M8 5a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V5Zm3-1a1 1 0 0 0-1 1v1h4V5a1 1 0 0 0-1-1h-2Z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
+                
+             <?php
+             $i++;
+            }else{
                 ?>
-                    
-            </select>
-        </p>
-        <h1 style="margin-top: -74px;margin-left: 400px;">Đề số: <span id="text-date" style="display: inline;"></span></h1>
-        <div class="danhsachdethi"></div>
-
-
-        <a class="primary-btn" href="#themdapan" style="margin-top: -570px; position: relative;right: 200px;">Thêm </a>
-    </div>
-</div>
-
-<!-- modal them  -->
-<div id="themdapan" class="overlay">
-  <div class="popup" style="height: 550px;">
-        <div class="header-form">
-            <h1 style="margin-top: 10px;">Thêm đáp án mới</h1>
-            <a class="close" href="#">&times;</a>
-        </div>
-        <div class="">
-            <form action="add_dapan.php" method="get" name="add-form" onsubmit="return validateForm_add()" enctype="multipart/form-data">
-                <label style="position: relative;top:-20px;left: 20px;">Chứng chỉ:</label><br>
-                <?php
-                    $sql = "SELECT * FROM tbl_chungchi order by machungchi";
-                    $stm = $pdo->query($sql);
+                <tr class="active-row" style="display: table; width: 100%;table-layout: fixed;">
+                <td style="text-align: center;width: 50px;"><?php echo $i?></td>
+                    <td style="text-align: center;width: 130px;"><?php echo $item->macauhoi?></td>
+                    <td style="width: 350px;"><?php echo $item->noidungcauhoi?></td>
+                    <?php 
+                        if($item->hinhanh == null){
+                            ?>
+                                <td style="text-align: center;width: 140px;">No Imange</td>
+                            <?php
+                        }else{
+                            ?>
+                                <td style="text-align: center;width: 140px;"> 
+                                    <img style="width: 70%;height: 70%;" src="./images/<?php echo $item->hinhanh?>" alt="">
+                                </td>
+                            <?php
+                        }
+                    ?>
+                    <?php 
+                        if($item->amthanh == null){
+                            ?>
+                                <td style="text-align: center;width: 260px;">No Audio</td>
+                            <?php
+                        }else{
+                            ?>
+                                <td style="text-align: center;width: 260px;">
+                                <audio controls style="width: 250px;" >
+                                    <source src="./audios/<?php echo $item->amthanh?>">
+                                </audio>
+                                </td>
+                            <?php
+                        }
+                    ?>
+                    <td style="text-align: center;">
+                        <a 
+                            href="edit_cauhoi.php?macauhoi=<?php echo $item->macauhoi?>">
+                            <svg width="30" height="30" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M7 6a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-2a1 1 0 1 1 0-2h2a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h2a1 1 0 0 1 0 2H7Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M8 12a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M8 16a1 1 0 0 1 1-1h3a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M8 5a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V5Zm3-1a1 1 0 0 0-1 1v1h4V5a1 1 0 0 0-1-1h-2Z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                        <a onclick="return confirm('Bạn có muốn xóa câu hỏi này không???');"
+                            href="delete_cauhoi.php?macauhoi=<?php echo $item->macauhoi?>">
+                            <svg width="30" height="30" fill="#dd2727" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M10 11a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0v-5a1 1 0 0 1 1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M14 11a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0v-5a1 1 0 0 1 1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M3 7a1 1 0 0 1 1-1h16a1 1 0 1 1 0 2H4a1 1 0 0 1-1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M6 9a1 1 0 0 1 1 1v8a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-8a1 1 0 1 1 2 0v8a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4v-8a1 1 0 0 1 1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M8 5a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V5Zm3-1a1 1 0 0 0-1 1v1h4V5a1 1 0 0 0-1-1h-2Z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                        
+                    </td>
+                </tr>
+             <?php
+             $i++;
+            }
+         }
+         ?>
+         </tbody>
+         </table>
+         <?php 
+    }else{
+    $stm = $pdo->query("SELECT * 
+    FROM tbl_cauhoi ch 
+    JOIN tbl_ctdethi ct ON ch.macauhoi= ct.macauhoi 
+    WHERE ct.made = '$made'");
+    $data = $stm->fetchAll(PDO::FETCH_OBJ);
+    $i =1;
+        ?>
+            <table class="styled-table" style="width: 1140px;margin-left: 50px;table-layout: fixed;margin-top: 1px;">
+                <thead style="display: table;">
+                    <tr>
+                        <td style="text-align: center;width: 50px">STT</td>
+                        <td style="text-align: center;width: 120px">Mã câu hỏi</td>
+                        <td style="width: 350px;">Nội dung câu hỏi</td>
+                        <td style="text-align: center;width: 150px;">Hình ảnh</td>
+                        <td style="text-align: center;width: 260px;">Âm thanh</td>
+                        <td style="text-align: center;width: 200px;">Action</td>
+                    </tr>
+                </thead>
+                <tbody style="display: block;height: 450px;overflow: auto;width: 100%;">
+        <?php
+        foreach($data as $item){
+            if($i % 2 !=0){
                 ?>
-                <p>
-                    <select class="select-date-formAdd" style="width: 200px;position: relative;left: 10px;top:-20px">
-                        <option value="0"> -- Not Value --</option>
-                        <?php
-                            $data = $stm->fetchAll(PDO::FETCH_OBJ);
-                            if($stm->rowCount()>0){
-                                foreach($data as $item){
-                                    ?>
-                                        <option value="<?php echo $item->machungchi ?>">
-                                            <?php echo $item->tenchungchi ?>
-                                        </option>
-                                    <?php
-                                }
-                                ?>
-                                <?php 
-                            }
-                        ?>
-                            
-                    </select>
-                </p>
-                <label style="margin-left: 270px;position: relative;top:-115px">Đề thi số:</label><br>
-                <div style="position: relative;top:-6px" class="select-dethi-formAdd"></div>
-
-                <div style="position: relative;top: -150px;">
-                <label style="margin-left: 20px;" for="">Nội dung câu hỏi</label>
-                    <textarea id="subject" name="noidung" placeholder="Write something.." style="height:100px;top:5px"></textarea>
-                </div>
-                <div style="margin-top: -80px;">
-                <a class="close-modal" href="#">Close</a>
-                <input type="submit" value="Submit">
-                </div>
-            </form>
-        </div>
-  </div>
-</div>
-
-</body>
-</html>
-<script>
-    $(document).ready(function () {
-        macdinh();
-        $('.select-date').change(function () {
-            var macc = $(this).val();
-            //$('#text-date').text(text);
-            $.post("select_dethi_cauhoi.php", { macc: macc }, function (data) {
-                $(".danhsachdethi").html(data);
-            })
-        });
-        function macdinh() {
-            var id = 0;
-            $.post("select_dethi_cauhoi.php", { macc: id }, function (data) {
-                $(".danhsachdethi").html(data);
-            })
-        }
-    });
-</script>
-
-<script>
-    $(document).ready(function () {
-        macdinh();
-        $('.select-date-formAdd').change(function () {
-            var macc = $(this).val();
-            //$('#text-date').text(text);
-            $.post("select_dethi_cauhoi_formAdd.php", { macc: macc }, function (data) {
-                $(".select-dethi-formAdd").html(data);
-            })
-        });
-        function macdinh() {
-            var id = 0;
-            $.post("select_dethi_cauhoi_formAdd.php", { macc: id }, function (data) {
-                $(".select-dethi-formAdd").html(data);
-            })
-        }
-    });
-</script>
-
-<script>
-    function validateForm_add(){
-      var noidung = document.forms["add-form"]["noidung"].value;
-      var dethi = document.forms["add-form"]["made"].value;
-
-      if(dethi == 0){
-        alert("Vui lòng chọn đề thi");
-        return false;
-      }else if(noidung == null || noidung ==""){
-        alert("Vui lòng nhập nội dung câu hỏi");
-        return false;
-      }
-    }
-</script>
-
-
+                <tr style="display: table; width: 100%;table-layout: fixed;">
+                    <td style="text-align: center;width: 50px;"><?php echo $i?></td>
+                    <td style="text-align: center;width: 130px;"><?php echo $item->macauhoi?></td>
+                    <td style="width: 350px;"><?php echo $item->noidungcauhoi?></td>
+                    <?php 
+                        if($item->hinhanh == null){
+                            ?>
+                                <td style="text-align: center;width: 140px;">No Imange</td>
+                            <?php
+                        }else{
+                            ?>
+                                <td style="text-align: center;width: 140px;"> 
+                                    <img style="width: 70%;height: 70%;" src="./images/<?php echo $item->hinhanh?>" alt="">
+                                </td>
+                            <?php
+                        }
+                    ?>
+                    <?php 
+                        if($item->amthanh == null){
+                            ?>
+                                <td style="text-align: center;width: 260px;">No Audio</td>
+                            <?php
+                        }else{
+                            ?>
+                                <td style="text-align: center;width: 260px;">
+                                <audio controls style="width: 250px;" >
+                                    <source src="./audios/<?php echo $item->amthanh?>">
+                                </audio>
+                                </td>
+                            <?php
+                        }
+                    ?>
+                    <td style="text-align: center;">
+                        <a 
+                            href="edit_cauhoi.php?macauhoi=<?php echo $item->macauhoi?>">
+                            <svg width="30" height="30" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M7 6a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-2a1 1 0 1 1 0-2h2a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h2a1 1 0 0 1 0 2H7Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M8 12a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M8 16a1 1 0 0 1 1-1h3a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M8 5a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V5Zm3-1a1 1 0 0 0-1 1v1h4V5a1 1 0 0 0-1-1h-2Z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                        <a onclick="return confirm('Bạn có muốn xóa câu hỏi này không???');"
+                            href="delete_cauhoi.php?macauhoi=<?php echo $item->macauhoi?>">
+                            <svg width="30" height="30" fill="#dd2727" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M10 11a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0v-5a1 1 0 0 1 1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M14 11a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0v-5a1 1 0 0 1 1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M3 7a1 1 0 0 1 1-1h16a1 1 0 1 1 0 2H4a1 1 0 0 1-1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M6 9a1 1 0 0 1 1 1v8a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-8a1 1 0 1 1 2 0v8a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4v-8a1 1 0 0 1 1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M8 5a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V5Zm3-1a1 1 0 0 0-1 1v1h4V5a1 1 0 0 0-1-1h-2Z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
+                
+             <?php
+             $i++;
+            }else{
+                ?>
+                <tr class="active-row" style="display: table; width: 100%;table-layout: fixed;">
+                <td style="text-align: center;width: 50px;"><?php echo $i?></td>
+                    <td style="text-align: center;width: 130px;"><?php echo $item->macauhoi?></td>
+                    <td style="width: 350px;"><?php echo $item->noidungcauhoi?></td>
+                    <?php 
+                        if($item->hinhanh == null){
+                            ?>
+                                <td style="text-align: center;width: 140px;">No Imange</td>
+                            <?php
+                        }else{
+                            ?>
+                                <td style="text-align: center;width: 140px;"> 
+                                    <img style="width: 70%;height: 70%;" src="./images/<?php echo $item->hinhanh?>" alt="">
+                                </td>
+                            <?php
+                        }
+                    ?>
+                    <?php 
+                        if($item->amthanh == null){
+                            ?>
+                                <td style="text-align: center;width: 260px;">No Audio</td>
+                            <?php
+                        }else{
+                            ?>
+                                <td style="text-align: center;width: 260px;">
+                                <audio controls style="width: 250px;" >
+                                    <source src="./audios/<?php echo $item->amthanh?>">
+                                </audio>
+                                </td>
+                            <?php
+                        }
+                    ?>
+                    <td style="text-align: center;">
+                        <a 
+                            href="edit_cauhoi.php?macauhoi=<?php echo $item->macauhoi?>">
+                            <svg width="30" height="30" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M7 6a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1h-2a1 1 0 1 1 0-2h2a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h2a1 1 0 0 1 0 2H7Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M8 12a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M8 16a1 1 0 0 1 1-1h3a1 1 0 1 1 0 2H9a1 1 0 0 1-1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M8 5a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V5Zm3-1a1 1 0 0 0-1 1v1h4V5a1 1 0 0 0-1-1h-2Z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                        <a onclick="return confirm('Bạn có muốn xóa câu hỏi này không???');"
+                            href="delete_cauhoi.php?macauhoi=<?php echo $item->macauhoi?>">
+                            <svg width="30" height="30" fill="#dd2727" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" d="M10 11a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0v-5a1 1 0 0 1 1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M14 11a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0v-5a1 1 0 0 1 1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M3 7a1 1 0 0 1 1-1h16a1 1 0 1 1 0 2H4a1 1 0 0 1-1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M6 9a1 1 0 0 1 1 1v8a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-8a1 1 0 1 1 2 0v8a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4v-8a1 1 0 0 1 1-1Z" clip-rule="evenodd"></path>
+                                <path fill-rule="evenodd" d="M8 5a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V5Zm3-1a1 1 0 0 0-1 1v1h4V5a1 1 0 0 0-1-1h-2Z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+                        
+                    </td>
+                </tr>
+             <?php
+             $i++;
+            }
+         }
+         ?>
+         </tbody>
+         </table>
+         <?php 
+}

@@ -2,6 +2,7 @@
 require 'config/connect.php';
 ?>
 <div>
+<h1 style="text-align: center; color: red; font-size: 25px; font-weight: bold; margin-top: 3rem;">THÊM CHỨNG CHỈ</h1> 
   <div class="form-edit">
     <form action="add_chungchi.php" method="post" name="edit-form" onsubmit="return validateForm_edit()" enctype="multipart/form-data">
       <div class="form-group" style="margin-top: 10px;">
@@ -28,7 +29,7 @@ require 'config/connect.php';
 <style>
   .form-edit {
   width: 60%;
-  height: 540px;
+  height: 280px;
   margin: 20px auto 10px;
   padding: 20px;
   border: 1px solid #ccc;
