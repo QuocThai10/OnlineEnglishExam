@@ -1,6 +1,8 @@
 <?php 
+  session_start();
   require 'config/connect.php';
   $macc = $_GET['macc']??"";
+  $tencc = $_GET['tencc']??"";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -82,50 +84,98 @@
       <section class="menu_exam section" id="menu-exam">
         <div class="menu__exam container">
           <?php 
-          $stm = $pdo->query('SELECT * FROM `tbl_chungchi`');
+          $limit = 8;
+          $sql = "SELECT * FROM `tbl_dethi` WHERE machungchi ='$macc'";
+          $result = $pdo->query($sql);
+          $total_records = $result->rowCount();
+          $total_pages = ceil($total_records / $limit);
+          $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+          if ($page < 1 || $page > $total_pages) {
+              $page = 1;
+          }
+          $offset = ($page - 1) * $limit;
+          $stm = $pdo->query("SELECT * FROM `tbl_dethi` WHERE machungchi ='$macc' LIMIT $limit OFFSET $offset");
           if($stm->rowCount()>0){
             $row = $stm->fetchAll(PDO::FETCH_OBJ);
             foreach($row as $item){
               ?>
-                <div class="menu__exam_test">
-                  <div class="row">
-                    <div class="title_exam">
-                      <h3><?php echo $item->tenchungchi?></h3>
-                     
-                      <p class="name_object_exam" style="text-align: justify;">
-                        <i class="ri-coin-fill"></i> <?php echo $item->mota?>
-                      </p>
-                      <p class="time_exam">
-                        <i class="ri-time-line"></i> Thời gian làm bài: 15 phút
-                      </p>
+              <div class="card-doing">
+                <div class="card-doing-test">
+                    <h1><?php echo $item->tendethi?></h1>
+                    <div style="margin-top: 10px;">
+                      <svg width="20" height="20" fill="#080808" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" d="M12 5.75a7.25 7.25 0 1 0 0 14.5 7.25 7.25 0 0 0 0-14.5ZM3.25 13a8.75 8.75 0 1 1 17.5 0 8.75 8.75 0 0 1-17.5 0Z" clip-rule="evenodd"></path>
+                      <path fill-rule="evenodd" d="M12 7.25a.75.75 0 0 1 .75.75v4.584l2.648 1.655a.75.75 0 1 1-.796 1.272l-3-1.875A.75.75 0 0 1 11.25 13V8a.75.75 0 0 1 .75-.75Z" clip-rule="evenodd"></path>
+                      <path fill-rule="evenodd" d="M6.53 3.47a.75.75 0 0 1 0 1.06l-2.5 2.5a.75.75 0 0 1-1.06-1.06l2.5-2.5a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd"></path>
+                      <path fill-rule="evenodd" d="M17.47 3.47a.75.75 0 0 0 0 1.06l2.5 2.5a.75.75 0 1 0 1.06-1.06l-2.5-2.5a.75.75 0 0 0-1.06 0Z" clip-rule="evenodd"></path>
+                      </svg>
+                      <label><?php echo $item->thoigianthi?> phút</label>
+                    </div>
+                    <div>
+                      <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512">
+                        <path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0 96 57.3 96 128s57.3 128 128 128zm89.6 32h-16.7c-22.2 10.2-46.9 16-72.9 16s-50.6-5.8-72.9-16h-16.7C60.2 288 0 348.2 0 422.4V464c0 26.5 21.5 48 48 48h274.9c-2.4-6.8-3.4-14-2.6-21.3l6.8-60.9 1.2-11.1 7.9-7.9 77.3-77.3c-24.5-27.7-60-45.5-99.9-45.5zm45.3 145.3l-6.8 61c-1.1 10.2 7.5 18.8 17.6 17.6l60.9-6.8 137.9-137.9-71.7-71.7-137.9 137.8zM633 268.9L595.1 231c-9.3-9.3-24.5-9.3-33.8 0l-37.8 37.8-4.1 4.1 71.8 71.7 41.8-41.8c9.3-9.4 9.3-24.5 0-33.9z"/>
+                      </svg>
+                      <label style="font-size: 18px;position: relative;top:-4px"><?php echo $item->luotthi?> lượt</label>
+                    </div>
+                    <div>
+                      <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                      <path d="M80 160c0-35.3 28.7-64 64-64h32c35.3 0 64 28.7 64 64v3.6c0 21.8-11.1 42.1-29.4 53.8l-42.2 27.1c-25.2 16.2-40.4 44.1-40.4 74V320c0 17.7 14.3 32 32 32s32-14.3 32-32v-1.4c0-8.2 4.2-15.8 11-20.2l42.2-27.1c36.6-23.6 58.8-64.1 58.8-107.7V160c0-70.7-57.3-128-128-128H144C73.3 32 16 89.3 16 160c0 17.7 14.3 32 32 32s32-14.3 32-32zm80 320a40 40 0 1 0 0-80 40 40 0 1 0 0 80z"/>
+                      </svg>
+                      <?php 
+                        $stmCount = $pdo->query("SELECT * FROM tbl_ctdethi WHERE made = '$item->made'");
+                        $count = $stmCount->rowCount();
+                      ?>
+                      <label style="font-size: 18px;position: relative;top:-2px"><?php echo $count?> câu</label>
+                    </div>
+                    <div class="tab-tencc">
+                      #<?php echo $tencc?>
+                    </div>
+                    <a href="test_form.php?made=<?php echo $item->made?>&timethi=<?php echo $item->thoigianthi?>" class="btn-thi">Vào Thi</a>
+                  </div>
               </div>
-
-              <div class="details_exam">
-                <a href="#" class="link_details_exam"
-                  ><button class="btn_details_exam">Vào thi</button></a
-                >
-              </div>
-            </div>
-          </div>
               <?php
             }
+            $page_number = $_GET['page']??"";
+            if($page_number == "" || $page_number < $total_pages){
+              $number = 1;
+            }else if($page_number == 1){
+              $number = 2;
+            }else{
+              $number = $page_number;
+            }
+            $number_now = 2;
+            ?>
+              <section class="pagination" id="pagination-id">
+                <div class="page_number">
+                  <ul class="pagination">
+                  <li class="page-item"><a class="page-link" href="?macc=<?php echo $macc?>&tencc=<?php echo $tencc?>&page=<?php echo $number-1?>"><</a></li>
+                <?php 
+                  for ($i = 1; $i <= $total_pages; $i++) {
+                    if ($i == $page) {
+                      $number_now = $i;
+                      ?>
+                        <li class="page-item active">
+                          <a class="page-link" href="?macc=<?php echo $macc?>&tencc=<?php echo $tencc?>&page=<?php echo $i?>"><?php echo $i?></a>
+                        </li>
+                      <?php
+                    } else {
+                      ?>
+                        <li class="page-item"><a class="page-link" href="?macc=<?php echo $macc?>&tencc=<?php echo $tencc?>&page=<?php echo $i?>"><?php echo $i?></a></li>
+                      <?php
+                    }
+                }
+                if($number_now == $total_pages){
+                  $number_now = 0;
+                }
+                ?>
+                <li class="page-item"><a class="page-link" href="?macc=<?php echo $macc?>&tencc=<?php echo $tencc?>&page=<?php echo $number_now+1?>">></a></li>
+              </ul>
+            </div>
+          </section>
+            <?php
           }
           ?>
           
-        </div>
-      </section>
-
-      <section class="pagination" id="pagination-id">
-        <div class="page_number">
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#"><</a></li>
-            <li class="page-item active">
-              <a class="page-link" href="#">1</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">></a></li>
-          </ul>
         </div>
       </section>
     </main>
@@ -202,8 +252,6 @@
           </div>
         </div>
       </div>
-
-      <span class="footer__copy"> &#169; All Rights Reserved By DucThien </span>
     </footer>
 
     <!--========== SCROLL UP ==========-->

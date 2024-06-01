@@ -700,3 +700,158 @@ img {
   background-color: greenyellow;
   color: black;
 }
+
+/* custom card */
+.card {
+  width: 250px;
+  height: 354px;
+  border-radius: 20px;
+  background: #f5f5f5;
+  position: relative;
+  padding: 1.8rem;
+  border: 2px solid #c3c6ce;
+  transition: 0.5s ease-out;
+  overflow: visible;
+}
+
+.card-details {
+  color: black;
+  height: 100%;
+  gap: 0.5em;
+  display: grid;
+  place-content: center;
+}
+
+.card-button {
+  transform: translate(-50%, 125%);
+  width: 60%;
+  border-radius: 1rem;
+  border: none;
+  background-color: #008bf8;
+  color: #fff;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  opacity: 0;
+  transition: 0.3s ease-out;
+  text-align: center;
+}
+
+.text-body {
+  color: rgb(134, 134, 134);
+  -webkit-box-orient: vertical; /* or 'horizontal' for line-by-line truncation */
+  display: -webkit-box;
+  -webkit-line-clamp: 5; /* Limit to 3 lines */
+  overflow: hidden; /* Hide excess content */
+  text-overflow: ellipsis;
+}
+
+/*Text*/
+.text-title {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+/*Hover*/
+.card:hover {
+  border-color: #008bf8;
+  box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+}
+
+.card:hover .card-button {
+  transform: translate(-50%, 50%);
+  opacity: 1;
+}
+
+/* card doing test */
+.card-doing {
+  display: inline-block;
+  text-align: center;
+  margin: 10px;
+  position: relative;
+  left: 90px;
+}
+.card-doing-test {
+  box-sizing: border-box;
+  width: 220px;
+  height: 254px;
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(6px);
+  border-radius: 17px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.5s;
+  user-select: none;
+  font-weight: bolder;
+  color: black;
+  padding: 20px;
+}
+.card-doing-test h1 {
+  font-size: 20px;
+}
+.card-doing-test label {
+  font-size: 15px;
+  color: #777777;
+  font-family: courier, arial, helvetica;
+  position: relative;
+  top: -4px;
+}
+
+.card-doing-test:hover {
+  transform: scale(1.05);
+}
+
+.card-doing-test:active {
+  transform: scale(0.95) rotateZ(1.7deg);
+}
+
+.tab-tencc {
+  border-radius: 20px;
+  background-color: #f0f8ff;
+  color: #3574c4;
+  padding: 5px;
+  font-size: 15px;
+  width: 70px;
+}
+
+/* btn vào thi */
+.btn-thi {
+  position: relative;
+  display: inline-block;
+  margin: 20px 0px 0px 5px;
+  padding: 10px 30px;
+  text-align: center;
+  font-size: 15px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  color: #35509a;
+  background: transparent;
+  cursor: pointer;
+  transition: ease-out 0.5s;
+  border: 2px solid #35509a;
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 0 #2613d4;
+  width: 165px;
+}
+
+.btn-thi:hover {
+  color: white;
+  box-shadow: inset 0 -100px 0 0 #35509a;
+}
+
+.btn-thi:active {
+  transform: scale(0.9);
+}
+.header-thi {
+  background-color: #ffffff;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  height: 70px;
+  box-shadow: 0px 2px 5px rgba(174, 171, 171, 0.2);
+}

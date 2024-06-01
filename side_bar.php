@@ -24,6 +24,7 @@ include 'essentials.php';
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/style_custom.css">
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
 
@@ -59,7 +60,7 @@ include 'essentials.php';
          <a href="profile.html" class="btn">view profile</a>
          <div class="flex-btn">
             <a href="login.html" class="option-btn">login</a>
-            <a href="register.html" class="option-btn">register</a>
+            <button type="button" id="dialog" href="logout.php" class="option-btn">Logout</button>
          </div>
       </div>
 
@@ -94,4 +95,20 @@ include 'essentials.php';
 
 <!-- custom js file link  -->
 <script src="js/script.js"></script>
-
+<script>
+   document.getElementById("dialog").addEventListener('click',function(){
+      Swal.fire({
+      title: "Are you sure?",
+      text: "Do you really want to log out??",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, logout now!"
+      }).then((result) => {
+      if (result.isConfirmed) {
+         location.href ="logout.php";
+      }
+      });
+   });
+</script>

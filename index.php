@@ -23,7 +23,6 @@
 
       <!--=============== CSS ===============-->
       <link rel="stylesheet" href="./css/main.css">
-      <link rel="stylesheet" href="./css/style_custom.css">
 
       <title>Responsive cactus website - Bedimcode</title>
 
@@ -122,7 +121,7 @@
                                     <p class="text-title"><?php echo $item->tenchungchi?></p>
                                     <p class="text-body"><?php echo $item->mota?></p>
                                 </div>
-                                <a href="doing_test.php?macc=<?php echo $item->machungchi?>" class="card-button">Vào Thi</a>
+                                <a href="doing_test.php?macc=<?php echo $item->machungchi?>&tencc=<?php echo $item->tenchungchi?>" class="card-button">Xem chi tiết</a>
                             </div>
                         <?php
                         $time += 400;
