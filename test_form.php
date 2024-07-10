@@ -13,7 +13,7 @@ $_SESSION['made'] = $made;
 <body >
 <form action="ketqua.php" method="post" id="myForm">
     <div class="header-thi">
-        <a href="#.php" class="btn-thoat">
+        <a id="dialog" class="btn-thoat">
             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0,0,300,150"
             style="fill:#FFFFFF;width: 50px;height: 50px;margin-top: -15px;">
             <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(3.55556,3.55556)"><path d="M36,12c-13.255,0 -24,10.745 -24,24c0,13.255 10.745,24 24,24c13.255,0 24,-10.745 24,-24c0,-13.255 -10.745,-24 -24,-24zM36,20c8.837,0 16,7.163 16,16c0,8.837 -7.163,16 -16,16c-8.837,0 -16,-7.163 -16,-16c0,-8.837 7.163,-16 16,-16zM42.36328,26.63477c-0.76788,0.00013 -1.53559,0.29341 -2.12109,0.87891l-4.24219,4.24414c-1.81485,-1.81474 -4.02952,-4.02985 -4.24219,-4.24219c-1.172,-1.171 -3.07214,-1.172 -4.24414,0c-1.172,1.172 -1.171,3.07119 0,4.24219l4.24219,4.24219l-4.24219,4.24219c-1.171,1.172 -1.172,3.07019 0,4.24219c1.172,1.172 3.07314,1.171 4.24414,0c0.21267,-0.21233 2.42734,-2.42745 4.24219,-4.24219l4.24219,4.24414c1.172,1.171 3.07019,1.172 4.24219,0c1.172,-1.172 1.171,-3.07314 0,-4.24414c-0.21233,-0.21267 -2.42745,-2.42734 -4.24219,-4.24219c1.81474,-1.81485 4.02985,-4.02952 4.24219,-4.24219c1.171,-1.172 1.172,-3.07214 0,-4.24414c-0.586,-0.586 -1.35322,-0.87903 -2.12109,-0.87891z"></path></g></g>
@@ -47,9 +47,15 @@ $_SESSION['made'] = $made;
                 $row = 1;
                 if($stm->rowCount()>0){
                     foreach($data as $item){    
+                        if($item->hinhanh !=null && $item->amthanh !=null){
                         ?>
                             <div class="card-cauhoi" style="grid-row:<?php echo $i?>;"id="noidungcauhoi<?php echo $item->macauhoi?>">
-                                <label style="font-size: 28px;"><?php echo $i?>. <?php echo $item->noidungcauhoi?></label>
+                                <label style="font-size: 28px;"><?php echo $i?>. <?php echo $item->noidungcauhoi?></label><br>
+                                <audio controls>
+                                    <source src="./audios/<?php echo $item->amthanh?>" type="audio/mpeg">
+                                </audio><br>
+                                <br>
+                                <img width="150px" height="150px" style="margin-left: 20px;" src="./images/<?php echo $item->hinhanh?>" alt="">
                                 <input style="display: none" type="text" name="macauhoi<?php echo $item->macauhoi?>" id="" value="<?php echo $item->macauhoi?>">
                                     <?php 
                                         $stmDapAn = $pdo->query("SELECT * FROM tbl_dapan JOIN tbl_cauhoi ON tbl_cauhoi.macauhoi = tbl_dapan.macauhoi 
@@ -100,7 +106,177 @@ $_SESSION['made'] = $made;
                             </div>
                             <?php
                             $i++;
+                            }else if($item->amthanh !=null){
+                                ?>
+                                <div class="card-cauhoi" style="grid-row:<?php echo $i?>;"id="noidungcauhoi<?php echo $item->macauhoi?>">
+                                <label style="font-size: 28px;"><?php echo $i?>. <?php echo $item->noidungcauhoi?></label><br>
+                                
+                                <audio controls>
+                                    <source src="./audios/<?php echo $item->amthanh?>" type="audio/mpeg">
+                                </audio>
+                                <input style="display: none" type="text" name="macauhoi<?php echo $item->macauhoi?>" id="" value="<?php echo $item->macauhoi?>">
+                                    <?php 
+                                        $stmDapAn = $pdo->query("SELECT * FROM tbl_dapan JOIN tbl_cauhoi ON tbl_cauhoi.macauhoi = tbl_dapan.macauhoi 
+                                        WHERE tbl_cauhoi.macauhoi = '$item->macauhoi'");
+                                        $n = 1;
+                                        $dataDapAn = $stmDapAn->fetchAll(PDO::FETCH_OBJ);
+                                        if($stmDapAn->rowCount()>0){
+                                            ?>
+                                            <ol type="A" class="container">
+                                            <?php
+                                            foreach($dataDapAn as $itemDapAn){
+                                                if($n <= $stmDapAn->rowCount()/2){
+                                                    ?>
+                                                    <li class="item"><?php echo $itemDapAn->noidungdapan?></li>
+                                                    <?php
+                                                }else{
+                                                    ?>
+                                                        <li class="item1"><?php echo $itemDapAn->noidungdapan?></li>
+                                                    <?php
+                                                }
+                                            $n ++;  
+                                            }
+                                            ?>
+                                            </ol>
+                                            <?php
+                                        }
+                                    ?>
+
+                                    <div class="body-dapan">
+                                            <label style="font-size: 20px;color: #ffffff;position: relative;top:15px;left: 20px;">Đáp án của bạn: </label>
+                                            <div class="radio-input">
+                                                <?php 
+                                                    $mang = array('A','B','C','D');
+                                                    $a = 0;
+                                                    $countMang = 1;
+                                                    foreach($dataDapAn as $itemDapAn){
+                                                        ?>
+                                                            <input value="<?php echo $itemDapAn->madapan?>" name="value-radio<?php echo $item->macauhoi?>" id="value-<?php echo $item->macauhoi?><?php echo $countMang?>" type="radio">
+                                                            <label for="value-<?php echo $item->macauhoi?><?php echo $countMang?>"><?php echo $mang[$a]?></label>
+                                                        <?php
+                                                        $a++;
+                                                        $countMang++;
+                                                    }
+                                                ?>
+                                            </div>
+                                        
+                                    </div>  
+                            </div>
+                            <?php
+                            $i++;
+                        }else if($item->hinhanh !=null){
+                            ?>
+                                <div class="card-cauhoi" style="grid-row:<?php echo $i?>;"id="noidungcauhoi<?php echo $item->macauhoi?>">
+                                <label style="font-size: 28px;"><?php echo $i?>. <?php echo $item->noidungcauhoi?></label><br>
+                                <img width="150px" height="150px" style="margin-left: 20px;" src="./images/<?php echo $item->hinhanh?>" alt="">
+                                <input style="display: none" type="text" name="macauhoi<?php echo $item->macauhoi?>" id="" value="<?php echo $item->macauhoi?>">
+                                    <?php 
+                                        $stmDapAn = $pdo->query("SELECT * FROM tbl_dapan JOIN tbl_cauhoi ON tbl_cauhoi.macauhoi = tbl_dapan.macauhoi 
+                                        WHERE tbl_cauhoi.macauhoi = '$item->macauhoi'");
+                                        $n = 1;
+                                        $dataDapAn = $stmDapAn->fetchAll(PDO::FETCH_OBJ);
+                                        if($stmDapAn->rowCount()>0){
+                                            ?>
+                                            <ol type="A" class="container">
+                                            <?php
+                                            foreach($dataDapAn as $itemDapAn){
+                                                if($n <= $stmDapAn->rowCount()/2){
+                                                    ?>
+                                                    <li class="item"><?php echo $itemDapAn->noidungdapan?></li>
+                                                    <?php
+                                                }else{
+                                                    ?>
+                                                        <li class="item1"><?php echo $itemDapAn->noidungdapan?></li>
+                                                    <?php
+                                                }
+                                            $n ++;  
+                                            }
+                                            ?>
+                                            </ol>
+                                            <?php
+                                        }
+                                    ?>
+
+                                    <div class="body-dapan">
+                                            <label style="font-size: 20px;color: #ffffff;position: relative;top:15px;left: 20px;">Đáp án của bạn: </label>
+                                            <div class="radio-input">
+                                                <?php 
+                                                    $mang = array('A','B','C','D');
+                                                    $a = 0;
+                                                    $countMang = 1;
+                                                    foreach($dataDapAn as $itemDapAn){
+                                                        ?>
+                                                            <input value="<?php echo $itemDapAn->madapan?>" name="value-radio<?php echo $item->macauhoi?>" id="value-<?php echo $item->macauhoi?><?php echo $countMang?>" type="radio">
+                                                            <label for="value-<?php echo $item->macauhoi?><?php echo $countMang?>"><?php echo $mang[$a]?></label>
+                                                        <?php
+                                                        $a++;
+                                                        $countMang++;
+                                                    }
+                                                ?>
+                                            </div>
+                                        
+                                    </div>  
+                            </div>
+                            <?php
+                            $i++;
+                            }else{
+                                ?>
+                                <div class="card-cauhoi" style="grid-row:<?php echo $i?>;"id="noidungcauhoi<?php echo $item->macauhoi?>">
+                                <label style="font-size: 28px;"><?php echo $i?>. <?php echo $item->noidungcauhoi?></label><br>
+                                
+                                <input style="display: none" type="text" name="macauhoi<?php echo $item->macauhoi?>" id="" value="<?php echo $item->macauhoi?>">
+                                    <?php 
+                                        $stmDapAn = $pdo->query("SELECT * FROM tbl_dapan JOIN tbl_cauhoi ON tbl_cauhoi.macauhoi = tbl_dapan.macauhoi 
+                                        WHERE tbl_cauhoi.macauhoi = '$item->macauhoi'");
+                                        $n = 1;
+                                        $dataDapAn = $stmDapAn->fetchAll(PDO::FETCH_OBJ);
+                                        if($stmDapAn->rowCount()>0){
+                                            ?>
+                                            <ol type="A" class="container">
+                                            <?php
+                                            foreach($dataDapAn as $itemDapAn){
+                                                if($n <= $stmDapAn->rowCount()/2){
+                                                    ?>
+                                                    <li class="item"><?php echo $itemDapAn->noidungdapan?></li>
+                                                    <?php
+                                                }else{
+                                                    ?>
+                                                        <li class="item1"><?php echo $itemDapAn->noidungdapan?></li>
+                                                    <?php
+                                                }
+                                            $n ++;  
+                                            }
+                                            ?>
+                                            </ol>
+                                            <?php
+                                        }
+                                    ?>
+
+                                    <div class="body-dapan">
+                                            <label style="font-size: 20px;color: #ffffff;position: relative;top:15px;left: 20px;">Đáp án của bạn: </label>
+                                            <div class="radio-input">
+                                                <?php 
+                                                    $mang = array('A','B','C','D');
+                                                    $a = 0;
+                                                    $countMang = 1;
+                                                    foreach($dataDapAn as $itemDapAn){
+                                                        ?>
+                                                            <input value="<?php echo $itemDapAn->madapan?>" name="value-radio<?php echo $item->macauhoi?>" id="value-<?php echo $item->macauhoi?><?php echo $countMang?>" type="radio">
+                                                            <label for="value-<?php echo $item->macauhoi?><?php echo $countMang?>"><?php echo $mang[$a]?></label>
+                                                        <?php
+                                                        $a++;
+                                                        $countMang++;
+                                                    }
+                                                ?>
+                                            </div>
+                                        
+                                    </div>  
+                            </div>
+                            <?php
+                            $i++;
+
                             }
+                        }
                         }
                     ?>
         </div>
@@ -113,7 +289,7 @@ $_SESSION['made'] = $made;
         
 
     <div class="card-list">
-        <div style="margin: 30px;">
+        <div style="margin: 30px;display: grid;grid-template-columns: auto auto auto auto auto;row-gap: 10px;column-gap: 10px;">
             <?php 
             $countList = 1;
             foreach($data as $item){
@@ -265,4 +441,20 @@ $_SESSION['made'] = $made;
     }
 </script>
 
-
+<script>
+  document.getElementById("dialog").addEventListener('click', function(){
+    Swal.fire({
+    title: "Are you sure?",
+    text: "Bạn có thật sự muốn thoát không??",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, Hãy thoát!"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.href = "index.php";
+    }
+  });
+  })
+</script>

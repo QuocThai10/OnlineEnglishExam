@@ -45,19 +45,13 @@
         <div class="nav__menu" id="nav-menu">
           <ul class="nav__list">
             <li class="nav__item">
-              <a href="#" class="nav__link active-link">Home</a>
+              <a href="#" class="nav__link active-link">Trang chủ</a>
             </li>
             <li class="nav__item">
-              <a href="#" class="nav__link">Doing Test</a>
+              <a href="doing_test.html" class="nav__link">Chứng chỉ</a>
             </li>
             <li class="nav__item">
-              <a href="#" class="nav__link">List Exam</a>
-            </li>
-            <li class="nav__item">
-              <a href="#" class="nav__link">News</a>
-            </li>
-            <li class="nav__item">
-              <a href="#" class="nav__link">About</a>
+              <a href="doing_test.html" class="nav__link">Danh sách đề thi</a>
             </li>
           </ul>
 
@@ -83,6 +77,7 @@
       <!--==================== HOME ====================-->
       <section class="menu_exam section" id="menu-exam">
         <div class="menu__exam container">
+          <div style="height: 520px;">
           <?php 
           $limit = 8;
           $sql = "SELECT * FROM `tbl_dethi` WHERE machungchi ='$macc'";
@@ -175,6 +170,7 @@
             <?php
           }
           ?>
+          </div>
           
         </div>
       </section>

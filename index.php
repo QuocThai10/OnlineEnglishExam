@@ -43,17 +43,15 @@
             <div class="nav__menu" id="nav-menu">
                 <ul class="nav__list">
                     <li class="nav__item">
-                        <a href="#" class="nav__link active-link">Trang chủ</a>
+                        <a href="index.php" class="nav__link active-link">Trang chủ</a>
                     </li>
                     <li class="nav__item">
-                        <a href="doing_test.html" class="nav__link">Chứng chỉ</a>
+                        <a href="#" class="nav__link">Chứng chỉ</a>
                     </li>
                     <li class="nav__item">
-                        <a href="doing_test.html" class="nav__link">Danh sách đề thi</a>
+                        <a href="#" class="nav__link">Danh sách đề thi</a>
                     </li>
-                    <li class="nav__item">
-                        <a href="history.html" class="nav__link">Lịch sử thi</a>
-                    </li>
+                    
                 </ul>
 
                 <!-- Button close -->
@@ -63,8 +61,8 @@
             </div>
 
             <div class="nav__actions">
-                <i class="ri-user-line"></i>
-
+                <a href="trangCaNhan.php" style="text-decoration: none;color: black;"><i class="ri-user-line" style="font-size: 19px;"><?php echo $_SESSION['admin']['hoten']?></i></a>
+                <a href="logout.php" style="color: red;"><i class="ri-logout-circle-r-line" ></i></a>
                 <!-- Toggle Button -->
                 <div class="nav__toggle" id="nav-toggle">
                     <i class="ri-menu-line"></i>

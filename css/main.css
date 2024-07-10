@@ -615,6 +615,9 @@ img {
   justify-content: center;
   align-items: center;
   margin: 20px 0;
+  position: absolute;
+  top: 320px;
+  left: 330px;
 }
 
 .page-item {

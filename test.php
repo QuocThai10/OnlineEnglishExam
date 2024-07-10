@@ -1,13 +1,22 @@
 <head>
-<link rel="stylesheet" href="./css/style_custom.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
-<form action="" method="get">
-<div class="radio-input">
-  <input value="value-1" name="value-radio" id="value-1" type="radio">
-  <label for="value-1">Value 1</label>
-  <input value="value-2" name="value-radio" id="value-2" type="radio">
-  <label for="value-2">Value 2</label>
-  <input value="value-3" name="value-radio" id="value-3" type="radio">
-  <label for="value-3">Value 3</label>
-</div>
-</form>
+<button type="button" id="dialog">lick</button>
+
+<script>
+  document.getElementById("dialog").addEventListener('click', function(){
+    Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.href = "index.php";
+    }
+  });
+  })
+</script>

@@ -77,7 +77,7 @@ if(!isset($_SESSION)) session_start();
           <span>or use your account</span>
           <input type="text" placeholder="User" name="user"/>
           <input type="password" placeholder="Password"  name="password"/>
-          <a href="#">Forgot your password?</a>
+          <a href="form_quenPassword.php" id="dialog">Forgot your password?</a>
           <input type="submit" value="Sign In" name="signIn" style="border-radius: 20px;border: 1px solid #ff4b2b;background-color: #ff4b2b;color: #ffffff;font-size: 12px;font-weight: bold;  padding: 12px 45px;  letter-spacing: 1px;  text-transform: uppercase;  transition: transform 80ms ease-in;width: 150px;">
         </form>
       </div>
@@ -203,4 +203,9 @@ if(!isset($_SESSION)) session_start();
       } 
     }
   </script>
+  <script>
+  document.getElementById("dialog").addEventListener('click', function(){
+    Swal.fire("SweetAlert2 is working!");
+  })
+</script>
 </html>
